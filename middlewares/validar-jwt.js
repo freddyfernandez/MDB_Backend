@@ -1,3 +1,4 @@
+//MIDLEWARE VALIDACION TOKEN
 const jwt = require('jsonwebtoken');
 const validarJWT = (req, res, next) => {
 

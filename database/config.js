@@ -14,6 +14,7 @@ const dbConexion = async() => {
 
         console.log('db online: ' + process.env.DB_CNN);
 
+
     } catch (error) {
         console.log(error);
         throw new Error('Error a la hora de iniciar la DB, ver logs');
