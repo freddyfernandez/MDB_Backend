@@ -40,26 +40,104 @@ const crearMedico = async(req, res = response) => {
 
 }
 
-const actualizarMedico = (req, res = response) => {
+const actualizarMedico = async(req, res = response) => {
 
-    res.json({
-        ok: true,
-        msg: 'actualizarMedicos'
-    })
+    const idMedico=req.params.id;
+    const uid= req.uid;
+    try {
+
+        const medico = await Medico.findById(idMedico);
+        
+        if(!medico){
+            return res.status(404).json({
+                ok:true,
+                msg: 'Hospital no encontrado por id',
+            })
+        }
+
+        const cambioMedico = {
+            ...req.body,
+            usuario: uid
+        }
+
+        const medicosActualizado = await Medico.findByIdAndUpdate(idMedico,cambioMedico,{new: true}); 
+
+        res.json({
+            ok: true,
+            msg: 'actualizarMedicos',
+            medico: medicosActualizado
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+   
 }
 
-const borrarMedico = (req, res = response) => {
+const borrarMedico = async(req, res = response) => {
 
-    res.json({
-        ok: true,
-        msg: 'borrarMedicos'
-    })
+    const idMedico=req.params.id;
+
+    try {
+
+        const medico = await Medico.findById(idMedico);
+        
+        if(!medico){
+            return res.status(404).json({
+                ok:true,
+                msg: 'Medico no encontrado por id',
+            })
+        }
+
+        await Medico.findByIdAndDelete(idMedico);
+
+        res.json({
+            ok: true,
+            msg: 'Medico Eliminado',
+        })
+    } catch (error) {
+        console.log(error);
+        res.json({
+            ok: false,
+            msg: 'Hable con el administrador'
+        })
+    }
+}
+
+
+const getMedicoById = async(req, res = response) => {
+
+    const id = req.params.id;
+    try {
+
+        const medico = await Medico.findById(id).populate('usuario', 'nombre img')
+        .populate('hospital', 'nombre img')
+
+        res.json({
+            ok: true,
+            medico
+        })
+        
+    } catch (error) {
+
+        console.log(error);
+        res.json({
+            ok: false,
+            msg:'hable con el administrador'
+        })
+        
+    }
+   
 }
 
 module.exports = {
     getMedicos,
     crearMedico,
     actualizarMedico,
-    borrarMedico
+    borrarMedico,
+    getMedicoById
     
 }

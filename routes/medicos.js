@@ -14,7 +14,8 @@
      getMedicos,
      actualizarMedico,
      crearMedico,
-     borrarMedico
+     borrarMedico,
+     getMedicoById
  } = require('../Controller/medicosController')
 
  const router = Router();
@@ -29,14 +30,22 @@
      ],
      crearMedico
  );
-
- router.put('/:id', [],
+// DESPUES DE USAR EL CONTROLADOR REALIZAR ESTA VALIDACION DE CAMPOS PARA LA RUTA /:id
+ router.put('/:id', [
+    validarJWT,
+    check('nombre', 'El nombre  del medico es necesario').not().isEmpty(),
+    check('hospital', 'El hospital id debe ser  valido').isMongoId(),
+    validarCampos
+ ],
      actualizarMedico
  );
 
  router.delete('/:id',
+     validarJWT,
      borrarMedico
  );
+
+ router.get('/:id',validarJWT,getMedicoById)
 
 
 
