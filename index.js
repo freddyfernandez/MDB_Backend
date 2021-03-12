@@ -1,6 +1,8 @@
 //importar el .env
 require('dotenv').config();
 
+const path = require('path');
+
 //=import express from 'express';
 const express = require('express');
 //contante cors
@@ -32,6 +34,11 @@ app.use('/api/medicos', require('./routes/medicos'));
 app.use('/api/login', require('./routes/auth'));
 app.use('/api/todo', require('./routes/busquedas'));
 app.use('/api/uploads', require('./routes/upload'));
+
+//lo ultimo
+app.get('*',(req,resp)=>{
+     resp.sendFile(path.resolve(__dirname,'public/index.html'));
+})
 
 
 app.listen(process.env.PORT, () => {
