@@ -106,7 +106,7 @@ const actualizarUsuario = async(req, res = response) => {
 
             const existeEmail = await Usuario.findOne({ email });
             if (existeEmail) {
-                return res.status(404).json({
+                return res.status(400).json({
                     ok: false,
                     msg: 'Ya existe  un usuario con ese Email'
                 });

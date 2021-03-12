@@ -84,7 +84,7 @@ const googleSingIn = async(req,res=response)=>{
         //guardar en la base de datos
         await usuario.save( );
         //Generar el TOKEN
-        const token = await generarJWT(usuarioDB.id);
+        const token = await generarJWT(usuario.id);
 
 
         res.json({

@@ -50,7 +50,7 @@ const validarADMIN_ROLE = async(req,res,next) =>{
             msg: 'No tiene privilegios para cambiar de rol'
         });
     } 
-
+    next();
        
    } catch (error) {
 
